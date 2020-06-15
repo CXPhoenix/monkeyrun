@@ -9,12 +9,6 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind._endWall, function (sprite, 
         count += -1
     }
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind._score, function (sprite, otherSprite) {
-    if (scoreOnce) {
-        info.changeScoreBy(1)
-        scoreOnce = false
-    }
-})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
     game.over(false, effects.melt)
 })
@@ -34,8 +28,8 @@ sprites.onOverlap(SpriteKind._Cloud, SpriteKind._endWall, function (sprite, othe
         sprite.destroy()
     }
 })
+let scoreTime = 0
 let projectile: Sprite = null
-let scoreArea: Sprite = null
 let cloud: Sprite = null
 let mySprite: Sprite = null
 let jumpPic: Image = null
@@ -603,134 +597,10 @@ for (let index = 0; index < 4; index++) {
     cloud.vx = -50
 }
 game.showLongText("奔跑吧孫悟空！     按下Ａ鍵跳躍", DialogLayout.Bottom)
+let time = game.runtime()
 game.onUpdateInterval(1500, function () {
     if (count < 2) {
         if (Math.percentChance(50)) {
-            scoreArea = sprites.create(img`
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-1 1 1 1 1 1 1 1 
-`, SpriteKind._score)
-            scoreArea.setPosition(160, 60)
-            scoreArea.vx = -50
-            scoreArea.setFlag(SpriteFlag.Invisible, true)
             projectile = sprites.createProjectileFromSide(img`
 . . . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . b b b b . . . . . . . . . . 
@@ -778,6 +648,10 @@ game.onUpdate(function () {
             once = false
         }
     }
+})
+game.onUpdate(function () {
+    scoreTime = Math.floor((game.runtime() - time) / 100)
+    info.setScore(scoreTime)
 })
 game.onUpdateInterval(500, function () {
     if (Math.percentChance(Math.randomRange(30, 40))) {
